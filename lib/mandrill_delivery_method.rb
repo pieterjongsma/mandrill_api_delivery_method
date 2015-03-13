@@ -1,2 +1,2 @@
-require "letter_opener/delivery_method"
-require "letter_opener/railtie" if defined? Rails
+require "mandrill_delivery_method/delivery_method"
+require "mandrill_delivery_method/railtie" if defined? Rails
