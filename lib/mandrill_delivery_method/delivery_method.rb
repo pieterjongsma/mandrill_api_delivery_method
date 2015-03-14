@@ -1,3 +1,5 @@
+require 'mandrill'
+
 module MandrillDeliveryMethod
   class DeliveryMethod
     class InvalidOption < StandardError; end
@@ -12,21 +14,27 @@ module MandrillDeliveryMethod
     def deliver!(mail)
       begin
         mandrill = Mandrill::API.new self.settings[:api_key]
+        
         message = {
-          html: mail.html_part.body.to_s,
-          text: mail.text_part.body.to_s,
           subject: mail.subject,
           from_email: mail.from.first,
           to: [{
             email: mail.to.first
           }]
         }
+        
+        if not mail.text_part.nil?
+          message[:text] = mail.text_part.body.to_s
+        end
+        
+        if not mail.html_part.nil?
+          message[:html] = mail.html_part.body.to_s
+        end
       
         async = false
-        ip_pool = "Main Pool"
-        send_at = mail.deliver_at.present? ? mail.deliver_at.uts.to_s : Time.now.utc.to_s
+        send_at = mail.deliver_at.nil? ? Time.now.utc.to_s : mail.deliver_at.uts.to_s
       
-        result = mandrill.messages.send message, async, ip_pool, send_at
+        result = mandrill.messages.send message, async, nil, send_at
       rescue Mandrill::Error => e
         puts "Error delivering mail to Mandrill API: #{e.class} - #{e.message}"
         raise
