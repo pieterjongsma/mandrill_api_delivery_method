@@ -1,6 +1,6 @@
 require 'mandrill'
 
-module MandrillDeliveryMethod
+module MandrillAPIDeliveryMethod
   class DeliveryMethod
     class InvalidOption < StandardError; end
   

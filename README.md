@@ -10,4 +10,4 @@ If you're using Rails, the plugin will automatically register as a delivery meth
 
 By default, the Mandrill API key is loaded from the environment as `MANDRILL_API_KEY`. If you're using a different mechanism for loading keys, you can simply overwrite the delivery method specification. For instance in `config/initializers/setup_mail.rb`
 
-    ActionMailer::Base.add_delivery_method :mandrill_api, MandrillDeliveryMethod::DeliveryMethod, api_key: "foo123"
+    ActionMailer::Base.add_delivery_method :mandrill_api, MandrillAPIDeliveryMethod::DeliveryMethod, api_key: "foo123"
