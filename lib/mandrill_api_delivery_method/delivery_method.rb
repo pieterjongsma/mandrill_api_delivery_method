@@ -15,13 +15,20 @@ module MandrillAPIDeliveryMethod
       begin
         mandrill = Mandrill::API.new self.settings[:api_key]
         
-        message = {
-          subject: mail.subject,
-          from_email: mail.from.first,
-          to: [{
-            email: mail.to.first
-          }]
-        }
+        message = mail.mandrill_options || {}
+        
+        unless message.has_key? :subject
+          message[:subject] = mail.subject
+        end
+        unless message.has_key? :from_email
+          message[:from_email] = mail.from.first
+        end
+        unless message.has_key? :to
+          message[:to] = []
+          mail.to.each do |email_address|
+            message[:to] << {email: email_address}
+          end
+        end
         
         if not mail.text_part.nil?
           message[:text] = mail.text_part.body.to_s

@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    mandrill-api-delivery-method (0.1)
+    mandrill-api-delivery-method (0.2)
 
 GEM
   remote: https://rubygems.org/
@@ -34,8 +34,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  mail
+  mail (~> 2.5)
   mandrill-api (~> 1.0)
   mandrill-api-delivery-method!
   rake
-  rspec
+  rspec (~> 2.0)
